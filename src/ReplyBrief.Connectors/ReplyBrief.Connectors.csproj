@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>ReplyBrief.Connectors</RootNamespace>
+    <AssemblyName>ReplyBrief.Connectors</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="..\ReplyBrief.Core\ReplyBrief.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="ReplyBrief.Connectors.Tests" />
+  </ItemGroup>
+
+  <!--
+    The Outlook add-in sources live outside this project so they can also be edited, reviewed and
+    uploaded to Outlook as plain files. They are mirrored into the output as outlook/* at build
+    time, and LocalCaptureHost serves exactly that allow-list and nothing else.
+  -->
+  <ItemGroup>
+    <Content Include="..\..\integrations\outlook\**\*">
+      <Link>outlook\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

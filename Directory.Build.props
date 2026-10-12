@@ -1,0 +1,10 @@
+<Project>
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <Version>0.1.0-preview.1</Version>
+    <Authors>NormalDudeBro</Authors>
+    <RepositoryUrl>https://github.com/NormalDudeBro/replybrief</RepositoryUrl>
+  </PropertyGroup>
+</Project>

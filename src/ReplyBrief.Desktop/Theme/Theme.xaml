@@ -1,0 +1,306 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:ReplyBrief.Desktop.Converters">
+
+  <!-- Charcoal and navy surfaces, one muted teal accent, no other hues. -->
+  <Color x:Key="Surface0Color">#0F1319</Color>
+  <Color x:Key="Surface1Color">#161B23</Color>
+  <Color x:Key="Surface2Color">#1D232D</Color>
+  <Color x:Key="LineColor">#28303B</Color>
+  <Color x:Key="LineStrongColor">#3A4552</Color>
+  <Color x:Key="TealColor">#4FA79D</Color>
+  <Color x:Key="TealSoftColor">#86C8C1</Color>
+  <Color x:Key="TealDeepColor">#2C6660</Color>
+
+  <SolidColorBrush x:Key="Surface0" Color="{StaticResource Surface0Color}" />
+  <SolidColorBrush x:Key="Surface1" Color="{StaticResource Surface1Color}" />
+  <SolidColorBrush x:Key="Surface2" Color="{StaticResource Surface2Color}" />
+  <SolidColorBrush x:Key="Line" Color="{StaticResource LineColor}" />
+  <SolidColorBrush x:Key="LineStrong" Color="{StaticResource LineStrongColor}" />
+  <SolidColorBrush x:Key="Teal" Color="{StaticResource TealColor}" />
+  <SolidColorBrush x:Key="TealSoft" Color="{StaticResource TealSoftColor}" />
+  <SolidColorBrush x:Key="TealDeep" Color="{StaticResource TealDeepColor}" />
+  <SolidColorBrush x:Key="Ink" Color="#E7ECF3" />
+  <SolidColorBrush x:Key="InkSoft" Color="#B4BECB" />
+  <SolidColorBrush x:Key="InkMuted" Color="#8A94A3" />
+  <SolidColorBrush x:Key="Good" Color="#86C8A0" />
+  <SolidColorBrush x:Key="Bad" Color="#D79696" />
+
+  <BooleanToVisibilityConverter x:Key="VisibleWhenTrue" />
+  <converters:InverseBooleanToVisibilityConverter x:Key="VisibleWhenFalse" />
+
+  <FontFamily x:Key="UiFont">Segoe UI</FontFamily>
+
+  <Style x:Key="Eyebrow" TargetType="TextBlock">
+    <Setter Property="FontFamily" Value="{StaticResource UiFont}" />
+    <Setter Property="FontSize" Value="11.5" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="Foreground" Value="{StaticResource InkMuted}" />
+  </Style>
+
+  <Style x:Key="CardTitle" TargetType="TextBlock">
+    <Setter Property="FontSize" Value="17" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="Foreground" Value="{StaticResource Ink}" />
+    <Setter Property="TextWrapping" Value="Wrap" />
+  </Style>
+
+  <Style x:Key="FieldLabel" TargetType="TextBlock">
+    <Setter Property="FontSize" Value="11.5" />
+    <Setter Property="Foreground" Value="{StaticResource InkMuted}" />
+    <Setter Property="Margin" Value="0,0,0,5" />
+  </Style>
+
+  <Style x:Key="Body" TargetType="TextBlock">
+    <Setter Property="FontSize" Value="13.5" />
+    <Setter Property="Foreground" Value="{StaticResource InkSoft}" />
+    <Setter Property="TextWrapping" Value="Wrap" />
+    <Setter Property="LineHeight" Value="20" />
+  </Style>
+
+  <DataTemplate x:Key="Bullet">
+    <Grid Margin="0,0,0,7">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <Border Width="3"
+              Background="{StaticResource Teal}"
+              CornerRadius="2"
+              Margin="0,5,10,0" />
+      <TextBlock Grid.Column="1"
+                 Text="{Binding}"
+                 TextWrapping="Wrap"
+                 FontSize="13"
+                 LineHeight="19"
+                 Foreground="{StaticResource InkSoft}" />
+    </Grid>
+  </DataTemplate>
+
+  <Style x:Key="NoteCard" TargetType="Border">
+    <Setter Property="Background" Value="{StaticResource Surface2}" />
+    <Setter Property="BorderBrush" Value="{StaticResource Line}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="8" />
+    <Setter Property="Padding" Value="16,14" />
+  </Style>
+
+  <Style x:Key="Card" TargetType="Border">
+    <Setter Property="Background" Value="{StaticResource Surface1}" />
+    <Setter Property="BorderBrush" Value="{StaticResource Line}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="10" />
+    <Setter Property="Padding" Value="18,16" />
+    <Setter Property="Margin" Value="0,0,0,14" />
+  </Style>
+
+  <Style x:Key="Field" TargetType="TextBox">
+    <Setter Property="Background" Value="{StaticResource Surface0}" />
+    <Setter Property="Foreground" Value="{StaticResource Ink}" />
+    <Setter Property="BorderBrush" Value="{StaticResource Line}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="Padding" Value="10,8" />
+    <Setter Property="FontSize" Value="13.5" />
+    <Setter Property="CaretBrush" Value="{StaticResource TealSoft}" />
+    <Setter Property="SelectionBrush" Value="{StaticResource TealDeep}" />
+    <Setter Property="VerticalContentAlignment" Value="Top" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="TextBox">
+          <Border x:Name="Chrome"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="6">
+            <ScrollViewer x:Name="PART_ContentHost"
+                          Margin="{TemplateBinding Padding}"
+                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                          Focusable="False"
+                          HorizontalScrollBarVisibility="Hidden"
+                          VerticalScrollBarVisibility="Hidden" />
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource LineStrong}" />
+            </Trigger>
+            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+              <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource Teal}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+              <Setter TargetName="Chrome" Property="Opacity" Value="0.5" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <Style TargetType="CheckBox">
+    <Setter Property="Foreground" Value="{StaticResource InkSoft}" />
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="Cursor" Value="Hand" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="CheckBox">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border x:Name="Box"
+                    Width="16"
+                    Height="16"
+                    CornerRadius="3"
+                    Background="{StaticResource Surface0}"
+                    BorderBrush="{StaticResource LineStrong}"
+                    BorderThickness="1"
+                    VerticalAlignment="Top"
+                    Margin="0,1,9,0">
+              <Path x:Name="Tick"
+                    Data="M 2,7 L 6,11 L 13,3"
+                    Stroke="{StaticResource Surface0}"
+                    StrokeThickness="2"
+                    StrokeEndLineCap="Round"
+                    StrokeStartLineCap="Round"
+                    Visibility="Collapsed" />
+            </Border>
+            <!-- Content is always text here, so a TextBlock gives the label a width to wrap in. -->
+            <TextBlock Grid.Column="1"
+                       VerticalAlignment="Center"
+                       TextWrapping="Wrap"
+                       Text="{TemplateBinding Content}"
+                       Foreground="{TemplateBinding Foreground}" />
+          </Grid>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+              <Setter TargetName="Box" Property="Background" Value="{StaticResource Teal}" />
+              <Setter TargetName="Box" Property="BorderBrush" Value="{StaticResource Teal}" />
+              <Setter TargetName="Tick" Property="Visibility" Value="Visible" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="Box" Property="BorderBrush" Value="{StaticResource TealSoft}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+              <Setter Property="Opacity" Value="0.5" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <Style x:Key="PrimaryAction" TargetType="Button">
+    <Setter Property="Foreground" Value="{StaticResource Surface0}" />
+    <Setter Property="Background" Value="{StaticResource Teal}" />
+    <Setter Property="FontSize" Value="13.5" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+    <Setter Property="Padding" Value="18,9" />
+    <Setter Property="Cursor" Value="Hand" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Border x:Name="Chrome"
+                  Background="{TemplateBinding Background}"
+                  CornerRadius="6"
+                  Padding="{TemplateBinding Padding}">
+            <ContentPresenter HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              TextBlock.Foreground="{TemplateBinding Foreground}" />
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="Chrome" Property="Background" Value="{StaticResource TealSoft}" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+              <Setter TargetName="Chrome" Property="Background" Value="{StaticResource TealDeep}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+              <Setter TargetName="Chrome" Property="Background" Value="{StaticResource Surface2}" />
+              <Setter Property="Foreground" Value="{StaticResource InkMuted}" />
+              <Setter Property="Cursor" Value="Arrow" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <Style x:Key="QuietAction" TargetType="Button">
+    <Setter Property="Foreground" Value="{StaticResource InkSoft}" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderBrush" Value="{StaticResource LineStrong}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="Padding" Value="16,9" />
+    <Setter Property="Cursor" Value="Hand" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="Button">
+          <Border x:Name="Chrome"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  CornerRadius="6"
+                  Padding="{TemplateBinding Padding}">
+            <ContentPresenter HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              TextBlock.Foreground="{TemplateBinding Foreground}" />
+          </Border>
+          <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+              <Setter TargetName="Chrome" Property="BorderBrush" Value="{StaticResource Teal}" />
+              <Setter Property="Foreground" Value="{StaticResource TealSoft}" />
+            </Trigger>
+            <Trigger Property="IsPressed" Value="True">
+              <Setter TargetName="Chrome" Property="Background" Value="{StaticResource Surface2}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+              <Setter Property="Opacity" Value="0.5" />
+              <Setter Property="Cursor" Value="Arrow" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <Style TargetType="ScrollBar">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Width" Value="10" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="ScrollBar">
+          <Grid Background="Transparent">
+            <Track x:Name="PART_Track" IsDirectionReversed="True">
+              <Track.DecreaseRepeatButton>
+                <RepeatButton Command="ScrollBar.PageUpCommand" Opacity="0" Focusable="False" />
+              </Track.DecreaseRepeatButton>
+              <Track.Thumb>
+                <Thumb>
+                  <Thumb.Template>
+                    <ControlTemplate TargetType="Thumb">
+                      <Border Background="{StaticResource LineStrong}"
+                              CornerRadius="4"
+                              Margin="2,0"
+                              Opacity="0.75" />
+                    </ControlTemplate>
+                  </Thumb.Template>
+                </Thumb>
+              </Track.Thumb>
+              <Track.IncreaseRepeatButton>
+                <RepeatButton Command="ScrollBar.PageDownCommand" Opacity="0" Focusable="False" />
+              </Track.IncreaseRepeatButton>
+            </Track>
+          </Grid>
+          <ControlTemplate.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+              <Setter TargetName="PART_Track" Property="IsDirectionReversed" Value="False" />
+            </Trigger>
+          </ControlTemplate.Triggers>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+</ResourceDictionary>

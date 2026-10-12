@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ReplyBrief add-in support</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body {
+      margin: 0 auto;
+      max-width: 44rem;
+      padding: 24px 20px 48px;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      font-size: 15px;
+      line-height: 1.55;
+    }
+    h1 { font-size: 22px; margin: 0 0 4px; }
+    h2 { font-size: 15px; margin: 28px 0 8px; text-transform: uppercase; letter-spacing: .04em; opacity: .75; }
+    p, li { margin: 0 0 10px; }
+    code { padding: 1px 5px; border-radius: 4px; background: rgba(127, 127, 127, .18); font-size: .92em; }
+    ul { padding-left: 22px; }
+    .note {
+      padding: 10px 12px;
+      border-left: 3px solid #1d4ed8;
+      background: rgba(29, 78, 216, .08);
+      border-radius: 4px;
+    }
+    footer { margin-top: 32px; font-size: 13px; opacity: .75; }
+  </style>
+</head>
+<body>
+  <h1>ReplyBrief for Outlook</h1>
+  <p class="note">
+    This page is served by the ReplyBrief desktop app on this computer. If it loads, ReplyBrief is
+    running and serving the add-in.
+  </p>
+
+  <h2>Getting started</h2>
+  <ol>
+    <li>Open a message in Outlook and choose <strong>ReplyBrief</strong> on the <strong>Message</strong> tab.</li>
+    <li>Paste the pairing code ReplyBrief shows on the desktop app.</li>
+    <li>Press <strong>Capture conversation</strong>. Nothing is captured until you do.</li>
+  </ol>
+
+  <h2>Common problems</h2>
+  <ul>
+    <li>
+      <strong>The task pane is blank.</strong> Outlook requires HTTPS. Trust the development
+      certificate with <code>dotnet dev-certs https --trust</code>, then close and reopen the pane.
+    </li>
+    <li>
+      <strong>Nothing appears on the Message tab.</strong> The add-in may not be sideloaded for this
+      mailbox, or your organisation blocks custom add-ins. Sideload from
+      <code>https://aka.ms/olksideload</code> via <strong>My add-ins</strong> &rarr; <strong>Add a custom
+      add-in</strong> &rarr; <strong>Add from File</strong>.
+    </li>
+    <li>
+      <strong>"The pairing code is missing or no longer current."</strong> The code changes every time
+      ReplyBrief starts. Copy the current one.
+    </li>
+    <li>
+      <strong>"ReplyBrief could not be reached."</strong> The desktop app is not running, or the
+      pairing code belongs to an earlier run.
+    </li>
+    <li>
+      <strong>"ReplyBrief is busy."</strong> Several captures are waiting for the desktop app to catch
+      up. Wait a moment and capture again.
+    </li>
+  </ul>
+
+  <h2>What gets captured</h2>
+  <p>
+    One message: its subject, its sender and its plain-text body. Thread history, attachments, inline
+    images and linked files are not included, and messages longer than 60,000 characters are refused
+    rather than truncated.
+  </p>
+
+  <footer>
+    ReplyBrief captures only when you ask it to, and the add-in never contacts an AI service.
+  </footer>
+</body>
+</html>

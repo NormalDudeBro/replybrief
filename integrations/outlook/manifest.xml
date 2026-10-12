@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Structure follows Microsoft's "Outlook add-in" XML manifest sample (MailApp v1.1):
+  https://learn.microsoft.com/en-us/office/dev/add-ins/develop/xml-manifest-overview
+
+  Validate with:  npx office-addin-manifest validate integrations/outlook/manifest.xml
+-->
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0"
+          xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0"
+          xsi:type="MailApp">
+
+  <!-- Begin basic settings: metadata used by clients that do not understand VersionOverrides. -->
+  <!-- IMPORTANT: change this GUID if you fork this add-in; it identifies the add-in in Exchange. -->
+  <Id>57ECB2BF-D961-4201-8467-32D5E78FF47B</Id>
+  <!-- Store updates only trigger on a version change. Bump this whenever the manifest changes. -->
+  <Version>1.0.0.0</Version>
+  <ProviderName>ReplyBrief</ProviderName>
+  <DefaultLocale>en-US</DefaultLocale>
+  <DisplayName DefaultValue="ReplyBrief"/>
+  <Description DefaultValue="Send the message you are reading to the ReplyBrief desktop app on this computer."/>
+  <IconUrl DefaultValue="https://localhost:47831/outlook/icon-32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://localhost:47831/outlook/icon-128.png"/>
+  <!-- Served by the ReplyBrief desktop app, so the page is only reachable while it is running. -->
+  <SupportUrl DefaultValue="https://localhost:47831/outlook/support.html"/>
+  <!-- The task pane is served by the desktop app, so its origin has to be declared here. -->
+  <AppDomains>
+    <AppDomain>https://localhost:47831</AppDomain>
+  </AppDomains>
+  <!-- End basic settings. -->
+
+  <Hosts>
+    <Host Name="Mailbox"/>
+  </Hosts>
+
+  <!-- Overridden by the Requirements inside VersionOverrides; kept for older clients. -->
+  <Requirements>
+    <Sets>
+      <Set Name="Mailbox" MinVersion="1.1"/>
+    </Sets>
+  </Requirements>
+
+  <!-- Required for validation and ignored when VersionOverrides is present. -->
+  <FormSettings>
+    <Form xsi:type="ItemRead">
+      <DesktopSettings>
+        <SourceLocation DefaultValue="https://localhost:47831/outlook/taskpane.html"/>
+        <RequestedHeight>250</RequestedHeight>
+      </DesktopSettings>
+    </Form>
+  </FormSettings>
+
+  <!-- ReadItem is enough to read the item the user already has open. No OAuth is involved. -->
+  <Permissions>ReadItem</Permissions>
+
+  <!-- Required for validation and ignored when VersionOverrides is present. -->
+  <Rule xsi:type="RuleCollection" Mode="Or">
+    <Rule xsi:type="ItemIs" ItemType="Message" FormType="Read"/>
+  </Rule>
+
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides" xsi:type="VersionOverridesV1_0">
+    <!--
+      The nested v1.1 override is required by Mailbox 1.5, which is the floor for new Outlook on
+      Windows and Outlook on the web. It is NOT a pinning declaration: this add-in ships no
+      TaskpaneId and no SupportsPinning, so the task pane cannot be pinned to a message.
+    -->
+    <VersionOverrides xmlns="http://schemas.microsoft.com/office/mailappversionoverrides/1.1" xsi:type="VersionOverridesV1_1">
+      <!-- Mailbox 1.5 is the floor for new Outlook on Windows and Outlook on the web. -->
+      <Requirements>
+        <bt:Sets DefaultMinVersion="1.5">
+          <bt:Set Name="Mailbox"/>
+        </bt:Sets>
+      </Requirements>
+
+      <Hosts>
+        <Host xsi:type="MailHost">
+          <DesktopFormFactor>
+            <!-- Required by the MailHost schema. ReplyBrief declares no ExecuteFunction command, so
+                 Outlook never loads this page; it is a separate page rather than the task pane so
+                 that no capture logic can run in a context with no UI and no pairing code. -->
+            <FunctionFile resid="functionFile"/>
+            <!-- MessageReadCommandSurface puts the button on the Message tab in read mode. -->
+            <ExtensionPoint xsi:type="MessageReadCommandSurface">
+              <OfficeTab id="TabDefault">
+                <Group id="msgReadGroup">
+                  <Label resid="groupLabel"/>
+                  <Control xsi:type="Button" id="msgReadOpenPaneButton">
+                    <Label resid="taskPaneButtonLabel"/>
+                    <Supertip>
+                      <Title resid="taskPaneButtonLabel"/>
+                      <Description resid="taskPaneButtonDescription"/>
+                    </Supertip>
+                    <Icon>
+                      <bt:Image size="16" resid="icon16"/>
+                      <bt:Image size="32" resid="icon32"/>
+                      <bt:Image size="80" resid="icon80"/>
+                    </Icon>
+                    <Action xsi:type="ShowTaskpane">
+                      <SourceLocation resid="messageReadTaskPaneUrl"/>
+                    </Action>
+                  </Control>
+                </Group>
+              </OfficeTab>
+            </ExtensionPoint>
+          </DesktopFormFactor>
+        </Host>
+      </Hosts>
+
+      <Resources>
+        <bt:Images>
+          <bt:Image id="icon16" DefaultValue="https://localhost:47831/outlook/icon-16.png"/>
+          <bt:Image id="icon32" DefaultValue="https://localhost:47831/outlook/icon-32.png"/>
+          <bt:Image id="icon80" DefaultValue="https://localhost:47831/outlook/icon-80.png"/>
+        </bt:Images>
+        <bt:Urls>
+          <bt:Url id="functionFile" DefaultValue="https://localhost:47831/outlook/commands.html"/>
+          <bt:Url id="messageReadTaskPaneUrl" DefaultValue="https://localhost:47831/outlook/taskpane.html"/>
+        </bt:Urls>
+        <bt:ShortStrings>
+          <bt:String id="groupLabel" DefaultValue="ReplyBrief"/>
+          <bt:String id="taskPaneButtonLabel" DefaultValue="Capture for ReplyBrief"/>
+        </bt:ShortStrings>
+        <bt:LongStrings>
+          <bt:String id="taskPaneButtonDescription" DefaultValue="Sends the message you are reading to the ReplyBrief desktop app running on this computer."/>
+        </bt:LongStrings>
+      </Resources>
+    </VersionOverrides>
+  </VersionOverrides>
+
+</OfficeApp>

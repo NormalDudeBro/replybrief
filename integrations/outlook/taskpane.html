@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ReplyBrief</title>
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  <style>
+    :root { color-scheme: light dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 16px;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    h1 { margin: 0 0 4px; font-size: 18px; }
+    h2 { margin: 0 0 8px; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; opacity: .75; }
+    p { margin: 0 0 12px; }
+    section { margin-bottom: 20px; }
+    label { display: block; margin-bottom: 4px; font-weight: 600; }
+    input {
+      width: 100%;
+      padding: 8px 10px;
+      font: inherit;
+      border: 1px solid #7a7a7a;
+      border-radius: 6px;
+      background: Canvas;
+      color: CanvasText;
+    }
+    input:focus-visible, button:focus-visible { outline: 2px solid #1d4ed8; outline-offset: 2px; }
+    button {
+      margin-top: 10px;
+      padding: 9px 14px;
+      font: inherit;
+      font-weight: 600;
+      color: #fff;
+      background: #1d4ed8;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button.secondary { color: inherit; background: transparent; border-color: #7a7a7a; font-weight: 500; }
+    button[disabled] { opacity: .55; cursor: default; }
+    .help { margin: 6px 0 0; font-size: 12px; opacity: .8; }
+    .note {
+      padding: 10px 12px;
+      border-left: 3px solid #1d4ed8;
+      background: rgba(29, 78, 216, .08);
+      border-radius: 4px;
+    }
+    .preview { display: grid; grid-template-columns: max-content 1fr; gap: 4px 12px; margin: 0 0 4px; }
+    .preview dt { font-weight: 600; opacity: .75; }
+    .preview dd { margin: 0; overflow-wrap: anywhere; }
+    .status { min-height: 1.45em; margin: 4px 0 12px; }
+    .status.error { color: #b3261e; font-weight: 600; }
+    .status.success { color: #146c2e; font-weight: 600; }
+    .status.warn { color: #8a5a00; font-weight: 600; }
+    .footnote { font-size: 12px; opacity: .75; margin: 0; }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>ReplyBrief</h1>
+    <p class="note">
+      This pane captures the single message selected in Outlook. Thread history, attachments and
+      linked files are not included.
+    </p>
+
+    <section aria-labelledby="pairing-heading">
+      <h2 id="pairing-heading">Pair with the desktop app</h2>
+      <label for="pairing-code">Pairing code</label>
+      <input id="pairing-code" type="password" inputmode="text" autocomplete="off"
+             autocapitalize="off" autocorrect="off" spellcheck="false"
+             aria-describedby="pairing-help">
+      <p id="pairing-help" class="help">
+        Shown by ReplyBrief on this computer. It stays in this task pane for as long as the pane is
+        open and is never written to disk or sent anywhere except to ReplyBrief itself.
+      </p>
+      <button id="forget-button" type="button" class="secondary" hidden>Forget pairing code</button>
+    </section>
+
+    <section aria-labelledby="capture-heading">
+      <h2 id="capture-heading">Capture the selected message</h2>
+      <dl class="preview">
+        <dt>Subject</dt>
+        <dd id="preview-subject">No message selected</dd>
+        <dt>From</dt>
+        <dd id="preview-from">Open a message in the reading pane.</dd>
+      </dl>
+      <button id="capture-button" type="button">Capture conversation</button>
+    </section>
+
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+
+    <p class="footnote">
+      ReplyBrief never captures anything automatically and never contacts an AI service from here.
+      Analysis happens only after you press the button.
+    </p>
+  </main>
+  <script src="taskpane.js"></script>
+</body>
+</html>

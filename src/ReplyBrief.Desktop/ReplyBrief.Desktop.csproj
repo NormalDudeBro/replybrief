@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>ReplyBrief.Desktop</RootNamespace>
+    <AssemblyName>ReplyBrief.Desktop</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ReplyBrief.Core\ReplyBrief.Core.csproj" />
+    <ProjectReference Include="..\ReplyBrief.Connectors\ReplyBrief.Connectors.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="ReplyBrief.Desktop.Tests" />
+  </ItemGroup>
+</Project>

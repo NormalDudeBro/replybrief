@@ -1,0 +1,42 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+      - name: Create HTTPS certificate for connector tests
+        run: dotnet dev-certs https
+      - name: Build
+        run: dotnet build ReplyBrief.sln -c Release
+      - name: Test .NET
+        run: dotnet test ReplyBrief.sln -c Release --no-build
+      - name: Test Outlook task pane
+        run: bun test tests/outlook
+      - name: Validate Outlook manifest
+        run: bun x office-addin-manifest validate integrations/outlook/manifest.xml
+      - name: Package Windows build
+        shell: pwsh
+        run: ./scripts/Publish-Windows.ps1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ReplyBrief-win-x64
+          path: |
+            artifacts/*.zip
+            artifacts/*.sha256
+          if-no-files-found: error
